@@ -24,6 +24,8 @@ const navigateToLogin = () => {
 
     <img src="@/assets/instagram.svg" alt="" class="logo-img" />
   </div>
+
+  
 </template>
 
 <style scoped>

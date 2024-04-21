@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import LangSelect from '@/components/LangSelect/LangSelect.vue'
+import Content from '../content/Content.vue';
+import FooterContent from '../footer-content/FooterContent.vue';
 </script>
 <template>
   <div class="first-div lg:h-[100vh] h-[70vh]">
@@ -32,6 +34,11 @@ import LangSelect from '@/components/LangSelect/LangSelect.vue'
       Eazzy App
     </p>
   </div>
+
+
+  <Content/>
+
+  <FooterContent/>
 </template>
 
 <!-- styling -->
