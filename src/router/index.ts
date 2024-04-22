@@ -1,20 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login/Login.vue'
 import FooterContent from '../components/footer-content/FooterContent.vue'
-import Header from '../components/Header/Header.vue'
+import Home from '../components/Home/Home.vue'
 import Content from '@/components/content/Content.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'header',
-      component: Header
+      name: 'home',
+      component: Home
     },
-    
-    
-    
-  
 
     {
       path: '/',
@@ -28,7 +24,6 @@ const router = createRouter({
       component: FooterContent
     },
 
-   
     {
       path: '/Login',
       name: 'login',

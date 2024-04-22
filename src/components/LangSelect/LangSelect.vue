@@ -1,22 +1,19 @@
 <template>
   <div class="flex mt-14 lg:mt-32 mr-10">
-    <img
-      v-if="selectedCountry"
-      :src="'../../assets/emojione_flag-for-china.svg'"
-      alt="Flag"
-      class="mr-4"
-    />
+    <img v-if="selectedCountry" :src="getFlag(selectedCountry)" alt="Flag" class="mr-4" />
 
-    <span class="cursor-pointer">{{ getCountryName(selectedCountry) }}</span>
+    <span class="cursor-pointer" @click="toggleDropdown">{{
+      getCountryName(selectedCountry)
+    }}</span>
 
     <svg
-      class="rotate-ease mt-2 ml-2"
+      class="rotate-ease mt-2 ml-2 cursor-pointer"
       width="12"
       height="12"
       viewBox="0 0 12 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      :class="{ 'rotate-svg': dropdownVisibility }"
+      :class="{ rotate: dropdownVisibility }"
       @click="toggleDropdown"
     >
       <path
@@ -27,71 +24,72 @@
 
     <!-- Dropdown menu content -->
     <div v-if="dropdownVisibility" class="dropdown-content">
-      <view
+      <div
         class="fixed z-99 top-0 left-0 w-100vw h-100vh"
         @click="toggleDropdownVisibility"
         @touchmove="toggleDropdownVisibility"
       />
 
-      <view class="absolute z-100 right-15px w-fit bg-white border-rd-10px p-10px mt-10px dropdown">
-        <template v-for="(language, index) in langList" :key="index">
-          <view
-            class="sub-container"
-            @click="handleSelectedLanguage(language)"
-            v-if="language.available"
-          >
-            <image class="rounded-full w-18px h-18px" :src="language.flag" />
-            <text>{{ language.name }}</text>
-            <svg
-              v-if="selectedLanguage.value === language.value"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="4"
-              stroke="currentColor"
-              class="w-16px h-16px text-green"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          </view>
+      <div
+        class="absolute z-100 right-15px w-fit bg-white border-rd-10px p-24px mt-32px mr-6 dropdown border border-1 shadow-md"
+      >
+        <template v-for="(country, index) in countries" :key="index">
+          <div class="sub-container flex py-1" @click="handleSelectedCountry(country.code)">
+            <img class="rounded-full w-18px h-18px mt-1" :src="getFlag(country.code)" />
+            <span class="ml-2">{{ country.name }}</span>
+          </div>
         </template>
-      </view>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      selectedCountry: 'English', // Set the default country code here
-      countries: [
-        { code: 'English', name: 'English' },
-        { code: 'বাংলা', name: 'বাংলা' },
-        { code: 'พม่า', name: 'พม่า' },
-        { code: '简体中文', name: '简体中文' }
-      ],
-      flagImages: {
-        English: '@/assets/emojione_flag-for-united-states.svg',
-        বাংলা: '@/assets/emojione_flag-for-myanmar.svg',
-        พม่า: '@/assets/emojione_flag-for-myanmar.svg',
-        简体中文: '@/assets/emojione_flag-for-china.svg'
-      },
-      dropdownVisibility: false // Add dropdown visibility property
-    }
-  },
-  methods: {
-    getCountryName(countryCode) {
-      console.log(countryCode)
-      const country = this.countries.find((country) => country.code === countryCode)
-      return country ? country.name : ''
-    },
-    getFlag(countryCode) {
-      return this.flagImages[countryCode]
-    },
-    toggleDropdown() {
-      this.dropdownVisibility = !this.dropdownVisibility // Toggle dropdown visibility
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+const selectedCountry = ref('English')
+const countries = [
+  { code: 'English', name: 'English' },
+  { code: 'বাংলা', name: 'বাংলা' },
+  { code: 'พม่า', name: 'พม่า' },
+  { code: '简体中文', name: '简体中文' }
+]
+const flagImages = {
+  unitedstates: '../../assets/emojione_flag-for-united-states.png',
+  bangladesh: '../../assets/emojione_flag-for-bangladesh.png',
+  myanmar: '../../assets/emojione_flag-for-myanmar.png',
+  china: '../../assets/emojione_flag-for-china.png'
+}
+const dropdownVisibility = ref(false)
+
+function getCountryName(countryCode) {
+  const country = countries.find((country) => country.code === countryCode)
+  return country ? country.name : ''
+}
+
+function getFlag(countryCode) {
+  console.log('cc', countryCode)
+  const flagSrc = flagImages[countryCode]
+  console.log('Flag Source:', flagSrc) // Debugging: Log the flag source to console
+  return flagSrc
+}
+
+function toggleDropdown() {
+  dropdownVisibility.value = !dropdownVisibility.value
+}
+
+function toggleDropdownVisibility() {
+  dropdownVisibility.value = !dropdownVisibility.value
+}
+
+function handleSelectedCountry(countryCode) {
+  selectedCountry.value = countryCode
+  toggleDropdownVisibility() // Hide dropdown after selection
 }
 </script>
+
+<style>
+.rotate {
+  transform: rotate(180deg); /* Rotate the SVG when dropdown is open */
+  transition: transform 0.3s ease; /* Add a transition for smooth animation */
+}
+</style>
