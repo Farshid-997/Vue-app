@@ -2,6 +2,7 @@
 import LangSelect from '@/components/LangSelect/LangSelect.vue'
 import Content from '../content/Content.vue'
 import FooterContent from '../footer-content/FooterContent.vue'
+import Posts from '../Posts/Posts.vue'
 </script>
 <template>
   <div class="first-div lg:h-[100vh] h-[70vh]">
@@ -37,6 +38,8 @@ import FooterContent from '../footer-content/FooterContent.vue'
 
   <Content />
   <FooterContent />
+
+  <!-- <Posts /> -->
 </template>
 
 <!-- styling -->
